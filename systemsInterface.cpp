@@ -14,7 +14,7 @@ vector<string> systemsInterface::getSourceFiles()
 
 /***********************************************************
  * systemsInterface::getLocalDependencies(string filePath)
- * return: vector<string> of all PATHs included by local include statement: # include " PATH "
+ * return: vector<string> of all PATHs included by local include statement: #include " PATH "
  *
  **********************************************************/
 vector<string> systemsInterface::getLocalDependencies(string filePath)

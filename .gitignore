@@ -1,0 +1,13 @@
+# Compiled source
+*.o
+*.so
+*.out
+
+# Swap files from vim
+*.swp
+
+# Logs and databases
+*.log
+
+# Specific files and folders
+cpp11_TestMappe
