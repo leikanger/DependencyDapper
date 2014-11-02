@@ -14,7 +14,8 @@ vector<string> systemsInterface::getSourceFiles()
 
 /***********************************************************
  * systemsInterface::getLocalDependencies(string filePath)
- * return: vector<string> of all PATHs included by local include statement: #include " PATH "
+ * return: vector<string> of all PATHs included by local include statement: # include " PATH "
+ *     -> that is dependencies that are supplied by relative path.
  *
  **********************************************************/
 vector<string> systemsInterface::getLocalDependencies(string filePath)
@@ -23,7 +24,7 @@ vector<string> systemsInterface::getLocalDependencies(string filePath)
 
     vector<string> systemOutput = exec(shellCommand);
 
-    // Extract the text between the mark " in the include statements: e.g. systemsInterface.h in this components  #include "systemsInterface.h"
+    // Extract the text between the mark " in the include statements: e.g. systemsInterface.h in this components  # include " systemsInterface.h "
     for (vector<string>::iterator it = systemOutput.begin(); it!=systemOutput.end(); ++it) {
         // Find first and last position of the mark " in order to extract name of included file.
         std::size_t firstPos= it->find_first_of("\"");
@@ -58,3 +59,20 @@ vector<string> systemsInterface::exec(string cmd)
     return result;
 }
 
+
+
+
+/* TEST Component */
+void TESTsystemsInterface::mainTest()
+{
+    cout<<"Get source files:\n\n";
+    vector<string> sourceFiles = systemsInterface::getSourceFiles();
+
+    for (auto iter : sourceFiles) {
+        vector<string> dependencies = systemsInterface::getLocalDependencies(iter);
+        cout<<"Dependencies of file " <<iter <<std::endl;
+        for (auto dependencyIter : dependencies) {
+            cout<<GREENCOLOR <<dependencyIter <<DEFAULTCOLOR <<"\n";
+        }
+    }
+}

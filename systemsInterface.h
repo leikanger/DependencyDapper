@@ -16,4 +16,8 @@ struct systemsInterface {
         // execute commmand cmd in shell and return output as a string
 };
 
+struct TESTsystemsInterface {
+    static void mainTest();
+};
+
 #endif

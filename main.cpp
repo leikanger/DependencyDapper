@@ -15,18 +15,10 @@ using std::vector;
 
 int main()
 {   
-    cout<<"Get source files:\n\n";
-    vector<string> sourceFiles = systemsInterface::getSourceFiles();
+    TESTsystemsInterface::mainTest();
 
-//    cout<<"Create object of SourceFileNode\n";
-//    SourceFileNode test("TEST");
-
-    for (auto iter : sourceFiles) {
-        vector<string> dependencies = systemsInterface::getLocalDependencies(iter);
-        cout<<"Dependencies of file " <<iter <<std::endl;
-        for (auto dependencyIter : dependencies)
-            cout<<GREENCOLOR <<dependencyIter <<DEFAULTCOLOR <<"\n";
-    }
+    SourceFileNode testObject("main.cpp");
+    TESTsourceFileNode::testFindLocalDependencies(&testObject);
 }
 
 

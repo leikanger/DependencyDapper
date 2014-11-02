@@ -1,21 +1,28 @@
 #ifndef SOURCEFILENODE_H
 #define SOURCEFILENODE_H
 
-#include <iostream>
+//#include <iostream>
+#include <string>
 #include <vector>
 
 class SourceFileNode {
     std::string sourcefilePath;
-    //std::vector<SourceFileNode*> includedFiles;
+    std::vector<SourceFileNode*> dependencyFiles;
 
 public:
     SourceFileNode(std::string path);
 
 private:
-//    SourceFileNode(const SourceFileNode&);
-        // Private copy constructor
-//    SourceFileNode& operator= (const SourceFileNode&);
-        // Private assignment operator
+    SourceFileNode(const SourceFileNode&);              // Not implemented
+    SourceFileNode& operator= (const SourceFileNode&);  // Not implemented
+
+    void findLocalDependencies();
+    
+    friend struct TESTsourceFileNode;
+};
+
+struct TESTsourceFileNode {
+    static void testFindLocalDependencies(SourceFileNode* testObject);
 };
 
 
