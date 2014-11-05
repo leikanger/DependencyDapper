@@ -1,0 +1,36 @@
+
+Eg trur det som står under gir en TWO-COMPONENT-SOLUTION :  SubArchitecture -> SourceFile
+
+FAEN: Eg treng å kalle SubArchitecture::getStaticHeaderFile(-) frå sourceNode::constructLocalDependencies(). Det får kanskje bli en ONE-COMPONENT-SOLUTION da?
+
+
+
+SubArchitecture                                                 What does member represent
+______________________________________________________________|___________________________________________________________
+- subArchPath           : string                                The path to the folder that comprises the SubArchitecture
+- souceFiles            : vector<SourceFileNode*>               All sourcefiles in the SubArchitecture
+- headerFiles           : map<string, SourceFileNode*>          The header files of the current level of the SubArchitecture hierarchy
+- allStaticHeaderFiles  : STATIC map<string, SourceFileNode*>   All header files generated so far (STATIC variable)
+__________________________________________________________
+- Private copy constructor & assignment operator (not implemented)
++ SubArchitecture(string path) : ctor                           Construct SubArchitecture with path given as arg.
+
++ getStaticHeaderFile(pathArg) : STATIC const SourceFileNode*   Find header file with path pathArg and return pointer, else construct it and return pointer.
+
+
+
+
+
+SourceFileNode                                                  What does member represent
+______________________________________________________________|___________________________________________________________
+- sourcefilePath    : const string                              Path of source file represented by object
+- dependencies      : vector<const SourceFileNode*>             Vector containing all of SourceFiles header files 
+_____________________________________________________________
+- Private copy constructor & assignment operator (not implemented)
++ SourceFile(const string& path)                                Constructor for sourcefile at [path]
+
++ getPaths()                    : const string&                 Getter function for path
+- constructLocalDependencies()  : void                          Find dependencies of sourcefile (.cpp or .h - file). Connect source file to pointers of dependencies (SourceFile*) found by 
+                                                                  SubArchitecture::getStaticHeaderFile(sourcefilePath + local-dependency-path)
+__________________________________________________________
+friend class TESTsourceFileNode

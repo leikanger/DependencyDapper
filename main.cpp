@@ -1,5 +1,6 @@
 #include "sourceFileNode.h" 
 #include "systemsInterface.h" 
+#include "subArchitecture.h"
 #include "fargar.h"
 
 #include <iostream>
@@ -15,10 +16,14 @@ using std::vector;
 
 int main()
 {   
-    TESTsystemsInterface::mainTest();
+//    TESTsystemsInterface::mainTest();
+    TESTsourceFileNode::testAll();
+    TESTsubArchitecture::testAll();
 
+    /*
     SourceFileNode testObject("main.cpp");
     TESTsourceFileNode::testFindLocalDependencies(&testObject);
+    */
 }
 
 

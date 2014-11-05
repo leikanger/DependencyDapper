@@ -7,8 +7,8 @@
 
 #include "fargar.h"
 
-struct systemsInterface {
-    static std::vector<std::string> getSourceFiles();
+struct SystemsInterface {
+    static std::vector<std::string> getAllSourcefilePaths(std::string dirPath ="./");
         // return string-vector of all relevant source files
     static std::vector<std::string> getLocalDependencies(std::string filePath);
         // return all included files from file with path [filePath]

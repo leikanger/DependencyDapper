@@ -1,1 +1,1 @@
-vim -p  main.cpp sourceFileNode.cpp sourceFileNode.h systemsInterface.cpp systemsInterface.h #Makefile
+vim -p  main.cpp subArchitecture.h subArchitecture.UML sourceFileNode.h systemsInterface.h

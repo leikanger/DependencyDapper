@@ -7,9 +7,10 @@ using std::cout;
 using std::string;
 using std::vector;
 
-vector<string> systemsInterface::getSourceFiles()
+vector<string> SystemsInterface::getAllSourcefilePaths(string dirPath)
 {   
-    return exec("ls *cpp");
+    string shellCommandToExecute = "ls " + dirPath + "*cpp";
+    return exec(shellCommandToExecute);
 }
 
 /***********************************************************
@@ -18,7 +19,7 @@ vector<string> systemsInterface::getSourceFiles()
  *     -> that is dependencies that are supplied by relative path.
  *
  **********************************************************/
-vector<string> systemsInterface::getLocalDependencies(string filePath)
+vector<string> SystemsInterface::getLocalDependencies(string filePath)
 {
     string shellCommand = "cat " + filePath + " | grep \'#include \"\'";
 
@@ -34,7 +35,7 @@ vector<string> systemsInterface::getLocalDependencies(string filePath)
     return systemOutput;
 }
 
-vector<string> systemsInterface::exec(string cmd)
+vector<string> SystemsInterface::exec(string cmd)
 {
     vector<string> result;
 
@@ -66,10 +67,10 @@ vector<string> systemsInterface::exec(string cmd)
 void TESTsystemsInterface::mainTest()
 {
     cout<<"Get source files:\n\n";
-    vector<string> sourceFiles = systemsInterface::getSourceFiles();
+    vector<string> sourceFiles = SystemsInterface::getAllSourcefilePaths();
 
     for (auto iter : sourceFiles) {
-        vector<string> dependencies = systemsInterface::getLocalDependencies(iter);
+        vector<string> dependencies = SystemsInterface::getLocalDependencies(iter);
         cout<<"Dependencies of file " <<iter <<std::endl;
         for (auto dependencyIter : dependencies) {
             cout<<GREENCOLOR <<dependencyIter <<DEFAULTCOLOR <<"\n";
