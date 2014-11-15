@@ -16,9 +16,9 @@ using std::vector;
 
 int main()
 {   
-//    TESTsystemsInterface::mainTest();
+    TESTsystemsInterface::mainTest();
     TESTsourceFileNode::testAll();
-    TESTsubArchitecture::testAll();
+//    TESTsubArchitecture::testAll();
 
     /*
     SourceFileNode testObject("main.cpp");

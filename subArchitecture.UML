@@ -1,15 +1,17 @@
+Dokumentasjon for klassa SubArchnitechture og klassa SourceFileNode:
 
 Eg trur det som står under gir en TWO-COMPONENT-SOLUTION :  SubArchitecture -> SourceFile
+Det er SubArchitecture som har ansvaret for å konstruere alle kildefilene til SubArch'en (og legger desse cpp-filene til i SourceFileNode::allSouceFiles). 
+Konstruerer SourceFileNode ved factory class, ved å kalle den static funksjonen findOrConstructSourcefileWithPath(path, bool isHeader = false)
 
-FAEN: Eg treng å kalle SubArchitecture::getStaticHeaderFile(-) frå sourceNode::constructLocalDependencies(). Det får kanskje bli en ONE-COMPONENT-SOLUTION da?
+
+
 
 
 
 SubArchitecture                                                 What does member represent
 ______________________________________________________________|___________________________________________________________
 - subArchPath           : string                                The path to the folder that comprises the SubArchitecture
-- souceFiles            : vector<SourceFileNode*>               All sourcefiles in the SubArchitecture
-- headerFiles           : map<string, SourceFileNode*>          The header files of the current level of the SubArchitecture hierarchy
 - allStaticHeaderFiles  : STATIC map<string, SourceFileNode*>   All header files generated so far (STATIC variable)
 __________________________________________________________
 - Private copy constructor & assignment operator (not implemented)
@@ -25,6 +27,8 @@ SourceFileNode                                                  What does member
 ______________________________________________________________|___________________________________________________________
 - sourcefilePath    : const string                              Path of source file represented by object
 - dependencies      : vector<const SourceFileNode*>             Vector containing all of SourceFiles header files 
+- allSouceFiles     : STATIC vector<SourceFileNode*>               All sourcefiles in the SubArchitecture
+- allHeaderFiles    : STATIC map<string, SourceFileNode*>          The header files of the current level of the SubArchitecture hierarchy
 _____________________________________________________________
 - Private copy constructor & assignment operator (not implemented)
 + SourceFile(const string& path)                                Constructor for sourcefile at [path]

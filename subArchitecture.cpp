@@ -3,13 +3,15 @@
 #include "systemsInterface.h"
 #include <iostream>
 
+#include <algorithm>
+
 using std::vector;
 using std::map;
 using std::string;
 using std::cout;
 
 // Define static memeber variable
-std::map<std::string, SourceFileNode*> SubArchitecture::allHeaderFiles;
+//std::map<std::string, SourceFileNode*> SubArchitecture::allHeaderFiles;
 
 SubArchitecture::SubArchitecture(string path)
     : subArchPath(path)
@@ -22,21 +24,25 @@ void SubArchitecture::findRelevantSourceFiles()
 {
     // For now: just take all cpp files in directory. Later, we can consider using Makefile or so.
     vector<string> allSourceFilePaths = SystemsInterface::getAllSourcefilePaths();
-    for (auto it : allSourceFilePaths) {
-        cout<<"TODO: construct \t\"" <<it <<"\"\n";
+    
+    cout<<"All sourcefiles in folder: \n";
+    std::for_each(  allSourceFilePaths.begin(), 
+                    allSourceFilePaths.end(), 
+                    [](string s){cout<<"\t" <<s <<"\n";}
+                 );
+
+    // Go through all sourefile pahts and construct (or find) the object for the source file
+    //   and add the pointer to the container variable SubArchitecture::sourceFiles.
+    for (string it : allSourceFilePaths) {
+        //cout<<"T0DO: construct \t\"" <<it <<"\"\n";
+        SourceFileNode* newSourcefile = SourceFileNode::findOrConstructSourcefileWithPath(it, false);
+        sourceFiles.push_back(newSourcefile);
+        // Insert the pointer returnered from SourceFileNode::findOrConstructSourcefileWithPath(-) 
+        //   into SourceFileNode::
         // TODO Gjør SourceFileNode ferdig. Lag den "heilt plain"
+        // Da kan eg konstruere en SourceFileNode (på heap) dersom eg ikkje finn path gjennom funksjonen getStaticHeaderFile(paht) --sjå under
     }
 }
-
-const SourceFileNode* SubArchitecture::getStaticHeaderFile(string pathArg)
-{
-    // See if item does not excists, construct element and insert pointer to list
-    if (allHeaderFiles.find(pathArg) == allHeaderFiles.end()) 
-        allHeaderFiles[pathArg] = new SourceFileNode(pathArg);
-
-    return allHeaderFiles[pathArg];
-}
-
 
 
 
@@ -60,7 +66,14 @@ void TESTsubArchitecture::constructor()
     std::cout<<"\n\n" <<YELLOWCOLOR <<"TEST" <<DEFAULTCOLOR <<": SubArchitecture ctor(string)"
                 <<YELLOWCOLOR <<" completed \n" <<DEFAULTCOLOR;
 
-    for (auto i : SubArchitecture::allHeaderFiles)
+/*    for (auto i : SubArchitecture::allHeaderFiles)
         cout<<"SubArchitecture::allHeaderFiles contains "
             <<GREYTEXT <<i.second->getFilePath() <<DEFAULTCOLOR <<"\n";
+*/
+
+    SourceFileNode::printAllSourceFiles();
+    SourceFileNode::printAllHeaderFiles();
+
+    TESTsourceFileNode::test_sourceDependencies();
 }
+
