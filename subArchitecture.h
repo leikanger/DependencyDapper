@@ -10,11 +10,11 @@ struct TESTsubArchitecture;
 
 //implementation
 class SubArchitecture {
-    std::string subArchPath;
+    fs::path subArchPath;
     //std::vector<SubArchitecture*> allSubArchitectures;  -  for later
     //SubArchitecture* SuperArchitecture;                 -  for later
     std::vector<SourceFileNode*> sourceFiles;
-    static std::map<std::string, SourceFileNode*> allHeaderFiles;
+    static std::map<fs::path, SourceFileNode*> allHeaderFiles;
     
 
     /******************** TIDLIGARE PLANAR:
@@ -49,8 +49,8 @@ class SubArchitecture {
      *      -> Return: dependencyPaths (sjå førre linja)
      */
 public:
-    SubArchitecture(std::string path); //KANSKJE legge til default argument  ="." ?
-    static const SourceFileNode* getStaticHeaderFile(std::string pathArg);
+    SubArchitecture(fs::path path); //KANSKJE legge til default argument  ="." ?
+    static const SourceFileNode* getStaticHeaderFile(fs::path pathArg);
     
 protected:
     void findRelevantSourceFiles();

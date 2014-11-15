@@ -13,10 +13,10 @@ using std::vector;
 using std::string;
 
 // Define static memeber variable
-std::map<std::string, SourceFileNode*> SourceFileNode::allSourceFiles;
-std::map<std::string, SourceFileNode*> SourceFileNode::allHeaderFiles;
+std::map<fs::path, SourceFileNode*> SourceFileNode::allSourceFiles;
+std::map<fs::path, SourceFileNode*> SourceFileNode::allHeaderFiles;
 
-SourceFileNode::SourceFileNode(string path) 
+SourceFileNode::SourceFileNode(fs::path path) 
     : sourcefilePath(path)
 {
     cout<<"CONSTRUCTOR for SourceFileNode\t" <<path <<"\n";
@@ -44,12 +44,15 @@ void SourceFileNode::constructLocalDependencies()
     cout<<"Local dependencies of file " <<REDCOLOR <<sourcefilePath <<DEFAULTCOLOR <<":\n";
     for (auto iter : localDependencies) {
         cout<<"\t" <<iter <<" inserted\n";
-        size_t pos = sourcefilePath.find_last_of("/");
-        string folderPath = sourcefilePath.substr(0, pos+1); // second arg is length of substr
-        //dependencies.push_back(new SourceFileNode(folderPath+iter));
-        dependencies.push_back(findOrConstructSourcefileWithPath(folderPath+iter, true));
+        string sourcefileString = sourcefilePath.string();
+        size_t pos = sourcefileString.find_last_of("/");
+        // Construct fs::path from start to first '/' in path string:
+        string folderString = sourcefileString.substr(0, pos+1); // second arg is length of substr
+        fs::path iterPath = fs::path(folderString+iter.string());
+        // Push back object (that is found in static-list or constructed by findOrCo..(-) function)
+        dependencies.push_back(findOrConstructSourcefileWithPath(iterPath, true));
         // Insert the new header file into map allHeaderFiles[path]:
-        allHeaderFiles[folderPath+iter] = findOrConstructSourcefileWithPath(folderPath+iter, true);
+        allHeaderFiles[iterPath] = dependencies.back();
         // TODO Neste blir å legge til static-liste i SubArch som har alle konstruerte .h filer
         // og gjøre som står rett over, i pkt. 2)
     }
@@ -70,7 +73,7 @@ void SourceFileNode::printAllHeaderFiles()
 }
 
 /* The following function finds or generates a new SourceFileNode if free store, and returns pointer to it */
-SourceFileNode* SourceFileNode::findOrConstructSourcefileWithPath(  string pathArg
+SourceFileNode* SourceFileNode::findOrConstructSourcefileWithPath(fs::path pathArg
                                                                   , bool isHeaderFile_arg /*=false*/)
 {
     // Headerfiles are handled in different container than sourcefiles:
@@ -118,7 +121,7 @@ int TESTsourceFileNode::test_constructLocalDependencies()
     //      -> headerB.h
     //      -> headerC.h
     //      -> newFolder/headerD.h
-    string path("testFolder/source1.cpp"); 
+    fs::path path("testFolder/source1.cpp"); 
     //std::shared_ptr<SourceFileNode> testObject (new SourceFileNode(path));
     SourceFileNode* testObjectP = new SourceFileNode(path);
     SourceFileNode::allSourceFiles[path] = testObjectP;

@@ -9,30 +9,32 @@
 
 // Forward declarations
 class SourceFileNode;
-
-/************************************
- * TODO Alt dette skal gjøres om! Gjør det heller på måten med SubArchitecture!
- * *********************************/
-
+namespace boost{
+    namespace filesystem{
+        class path;
+    }
+}
+namespace fs = boost::filesystem;
 
 // Implementation
 class SourceFileNode {
-    std::string sourcefilePath;
+    fs::path sourcefilePath;   
     std::vector<SourceFileNode*> dependencies;
-    static std::map<std::string, SourceFileNode*> allSourceFiles;
-    static std::map<std::string, SourceFileNode*> allHeaderFiles;
+    static std::map<fs::path, SourceFileNode*> allSourceFiles;
+    static std::map<fs::path, SourceFileNode*> allHeaderFiles;
 
 public:
     //SourceFileNode* getStaticHeaderFile(std::string pathArg);
-    static SourceFileNode* findOrConstructSourcefileWithPath(std::string pathArg
+    static SourceFileNode* findOrConstructSourcefileWithPath(fs::path pathArg
                                                             , bool isHeaderFile_arg = false);
     static void printAllSourceFiles();
     static void printAllHeaderFiles();
-    std::string getFilePath() const { return sourcefilePath; }
+    fs::path getFilePath() const { return sourcefilePath; }
 
 private:
     // Foreløpig: Legg constructor private. Kan endre dette ved behov, men no brukast factory-funksjonen findOrConstructSourcefileWithPath(path).
-    SourceFileNode(std::string path);
+    SourceFileNode(fs::path path);
+    //SourceFileNode(std::string path);
     SourceFileNode(const SourceFileNode&);              // Not implemented
     SourceFileNode& operator= (const SourceFileNode&);  // Not implemented
 

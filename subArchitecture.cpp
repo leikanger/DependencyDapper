@@ -13,7 +13,7 @@ using std::cout;
 // Define static memeber variable
 //std::map<std::string, SourceFileNode*> SubArchitecture::allHeaderFiles;
 
-SubArchitecture::SubArchitecture(string path)
+SubArchitecture::SubArchitecture(fs::path path)
     : subArchPath(path)
 {
     cout<<"Inne i constructor. Path " <<subArchPath <<"\n";
@@ -23,17 +23,17 @@ SubArchitecture::SubArchitecture(string path)
 void SubArchitecture::findRelevantSourceFiles()
 {
     // For now: just take all cpp files in directory. Later, we can consider using Makefile or so.
-    vector<string> allSourceFilePaths = SystemsInterface::getAllSourcefilePaths();
+    vector<fs::path> allSourceFilePaths = SystemsInterface::getAllSourcefilePaths(subArchPath);
     
     cout<<"All sourcefiles in folder: \n";
     std::for_each(  allSourceFilePaths.begin(), 
                     allSourceFilePaths.end(), 
-                    [](string s){cout<<"\t" <<s <<"\n";}
+                    [](fs::path s){cout<<"\t" <<s <<"\n";}
                  );
 
     // Go through all sourefile pahts and construct (or find) the object for the source file
     //   and add the pointer to the container variable SubArchitecture::sourceFiles.
-    for (string it : allSourceFilePaths) {
+    for (fs::path it : allSourceFilePaths) {
         //cout<<"T0DO: construct \t\"" <<it <<"\"\n";
         SourceFileNode* newSourcefile = SourceFileNode::findOrConstructSourcefileWithPath(it, false);
         sourceFiles.push_back(newSourcefile);

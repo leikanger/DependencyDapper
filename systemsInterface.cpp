@@ -43,6 +43,9 @@ vector<fs::path> SystemsInterface::getAllSourcefilePaths(fs::path dirPath)
             std::cerr <<e.what() <<'\n';
         }
     }
+
+    // XXX REMOVE WARNING XXX
+    return vector<fs::path>();
 }
 
 #if 0 //Gammel variant:
