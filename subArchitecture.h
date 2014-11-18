@@ -11,11 +11,32 @@ struct TESTsubArchitecture;
 //implementation
 class SubArchitecture {
     fs::path subArchPath;
-    //std::vector<SubArchitecture*> allSubArchitectures;  -  for later
     //SubArchitecture* SuperArchitecture;                 -  for later
     std::vector<SourceFileNode*> sourceFiles;
     static std::map<fs::path, SourceFileNode*> allHeaderFiles;
     
+
+public:
+    SubArchitecture(fs::path path); //KANSKJE legge til default argument  ="." ?
+    static const SourceFileNode* getStaticHeaderFile(fs::path pathArg);
+    
+protected:
+    void findRelevantSourceFiles();
+    
+friend struct TESTsubArchitecture;
+};
+
+// TEST klasse:
+struct TESTsubArchitecture {
+    static void testAll() {
+        constructor();
+        findRelevantSourceFiles();
+    }
+    static void constructor();
+    static void findRelevantSourceFiles() { /* TODO */ };
+};
+
+
 
     /******************** TIDLIGARE PLANAR:
      * Konstruerer SourceNode:
@@ -48,24 +69,5 @@ class SubArchitecture {
      *              Navnet på alle dependencies lagrast i vector<string>, som returneres fra funk.
      *      -> Return: dependencyPaths (sjå førre linja)
      */
-public:
-    SubArchitecture(fs::path path); //KANSKJE legge til default argument  ="." ?
-    static const SourceFileNode* getStaticHeaderFile(fs::path pathArg);
-    
-protected:
-    void findRelevantSourceFiles();
-    
-friend struct TESTsubArchitecture;
-};
-
-// TEST klasse:
-struct TESTsubArchitecture {
-    static void testAll() {
-        constructor();
-        findRelevantSourceFiles();
-    }
-    static void constructor();
-    static void findRelevantSourceFiles() { /* TODO */ };
-};
 
 #endif

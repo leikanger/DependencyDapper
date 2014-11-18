@@ -10,6 +10,6 @@
 *.log
 
 # Specific files and folders
-cpp11_TestMappe
+cpp11_TestMappe/
 PLAN
 TODO

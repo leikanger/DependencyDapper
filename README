@@ -1,0 +1,3 @@
+DependencyDapper - Software to trace dependencies of a software project
+
+This software is made to ease analysis of dependencies (include statements and headerfiles) and be a tool to help improve code quality.

@@ -32,20 +32,25 @@ vector<fs::path> SystemsInterface::getAllSourcefilePaths(fs::path dirPath)
     catch (fs::filesystem_error const & e) {
         std::cerr<<e.what() <<'\n';
     }
-    // Iterate through directory
+
+    vector<fs::path> returnVector;
+    // Iterate through directory. Add element ti returnVector if valid
     for( fs::directory_iterator file(dirPath) ;
           file != fs::directory_iterator();   //Default ctor gives end-iterator
           ++file) {
         try {
+            if (fs::is_directory(*file))
+                continue;
+
             cout<<"File paht: " <<file->path() <<'\n';    
+            returnVector.push_back(*file);
         }
         catch (fs::filesystem_error const & e) {
             std::cerr <<e.what() <<'\n';
         }
     }
 
-    // XXX REMOVE WARNING XXX
-    return vector<fs::path>();
+    return returnVector;
 }
 
 #if 0 //Gammel variant:
